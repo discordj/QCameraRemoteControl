@@ -7,16 +7,15 @@ TARGET = QCameraRemoteControl
 DESTDIR = ./Debug
 QT += core widgets gui
 CONFIG += debug
-DEFINES += QT_LARGEFILE_SUPPORT NO_JPEG DJGPP HAVEWINSOCK USE_CIMG QT_DLL NO_LCMS NODEPS
+DEFINES += QT_LARGEFILE_SUPPORT NO_JPEG DJGPP USE_CIMG QT_DLL NO_LCMS NODEPS __MINGW__
 INCLUDEPATH += ./GeneratedFiles \
     ./GeneratedFiles/$(Configuration) \
     . \
-    ../../../../Documents/GitHub/QCameraInterface \
-    ../../../../Documents/GitHub/DcRawQT \
-    ../../../../../../Documents and Settings/jbowes/My Documents/Visual Studio 2008/Projects/lcms-1.19/include \
-    ../../../../Documents/GitHub/QCameraInterface/GeneratedFiles
-LIBS += -L"../../../../Documents/GitHub/DcRawQT/Debug" \
-    -L"../../../../Documents/GitHub/QCameraInterface/Debug" \
+    ../electrobee/QCameraInterface \
+    ../DcRawQT \
+    ../electrobee/QCameraInterface/GeneratedFiles
+LIBS += -L"../DcRawQT/Release" \
+    -L"../electrobee/QCameraInterface/Release" \
     -lQCameraInterface \
     -lDcRawQT
 DEPENDPATH += .
