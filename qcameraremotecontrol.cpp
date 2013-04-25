@@ -29,9 +29,9 @@ void QCameraRemoteControl::on_actionConnect_triggered()
 		CameraTetherWidget *ct = new CameraTetherWidget(dw);
 
 		dw->setWidget(ct);
-
+    qDebug(qPrintable("Setting camera..."));
 		ct->setCamera(selectedCameras.at(0), cm);
-
+        qDebug(qPrintable("Camera selected!"));
 
 		dw->setFloating(true);
 		dw->show();

@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = QCameraRemoteControl
-DESTDIR = ./Debug
+DESTDIR = ./
 QT += core widgets gui
 CONFIG += debug
 DEFINES += QT_LARGEFILE_SUPPORT NO_JPEG DJGPP USE_CIMG QT_DLL NO_LCMS NODEPS __MINGW__
@@ -14,13 +14,12 @@ INCLUDEPATH += ./GeneratedFiles \
     ../electrobee/QCameraInterface \
     ../DcRawQT \
     ../electrobee/QCameraInterface/GeneratedFiles
-LIBS += -L"../DcRawQT/Release" \
-    -L"../electrobee/QCameraInterface/Release" \
+LIBS += -L"../Debug" \
     -lQCameraInterface \
     -lDcRawQT
 DEPENDPATH += .
 MOC_DIR += ./GeneratedFiles/debug
-OBJECTS_DIR += debug
+
 UI_DIR += ./GeneratedFiles
 RCC_DIR += ./GeneratedFiles
 include(QCameraRemoteControl.pri)

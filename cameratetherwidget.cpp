@@ -21,7 +21,7 @@ CameraTetherWidget::CameraTetherWidget(QWidget *parent)
 	//setupimageformats();
 
 	shootingraw = false;
-
+    qDebug(qPrintable("Tether initialzed"));
 	//QCameraManager *cm = new QCameraManager();
 
 	//QList<QCamera *> selectedCameras = cm->showdialog(false);
@@ -63,9 +63,13 @@ void CameraTetherWidget::setCamera(QCamera *camera, QCameraManager *cm)
 
 	selectedCamera = camera;
 	cm->selectCamera(camera);
+
+    qDebug(qPrintable("Setting up signal/slots"));
 	connect(camera,SIGNAL(image_captured(QImage)),this, SLOT(on_qcamera_image_captured(QImage)));
 	connect(camera,SIGNAL(destroyed(QObject *)),this,SLOT(on_qcamera_destroyed(QObject *)));
 	connect(camera,SIGNAL(camera_busy(bool)),this,SLOT(on_qcamera_busy(bool)));
+
+    qDebug(qPrintable("Callling cameradetected()"));
 	cameradetected();
 
 
@@ -124,9 +128,10 @@ void CameraTetherWidget::cameradetected()
 {
 
 	selectedCamera->QCConnect();
-	//props = selectedCamera->getCameraProperties();
+    props = selectedCamera->getCameraProperties();
 	ui.gbcamera->setTitle(selectedCamera->model());
 //	if(0 != props){
+    qDebug(qPrintable("Setting up settable items"));
 	setupexposureindexes();
 	setupfnumbers();
 	setupimageformats();
@@ -194,6 +199,7 @@ void CameraTetherWidget::setupwhitebalance()
 {
 	//WIA::IProperty *prop = device->Properties()->Item(QVariant("White Balance"));
 	//ui.lbWhiteBalance->setText(_whitebalances.value(prop->Value().toInt()));
+    if(0 == selectedCamera->getCameraProperty(QCameraProperties::WhiteBalanceMode)) return;
 
 	QList<QVariant> wbvalues = selectedCamera->getCameraProperty(QCameraProperties::WhiteBalanceMode)->values();
 	QList<QString> wbkeys = selectedCamera->getCameraProperty(QCameraProperties::WhiteBalanceMode)->keys();
@@ -203,7 +209,8 @@ void CameraTetherWidget::setupwhitebalance()
 
 		//if(!prop->IsReadOnly())
 		//{
-			hasISO = true;
+            //hasISO = true;
+        hasWhiteBalance = true;
 			ui.lbWhiteBalance->setText(QString("%1").arg(wbkeys.at(wbvalues.indexOf(currentValue))));
 			
 			_whitebalances.clear();
@@ -289,6 +296,7 @@ void CameraTetherWidget::setupexposurecompensation()
 }
 void CameraTetherWidget::setupexposuretimes()
 {
+    if(0 == selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)) return;
 	   _camerasupportedexposuretimes.clear();
 		//WIA::IProperty *prop = device->Properties()->Item(QVariant("Exposure Time"));
 
@@ -325,7 +333,7 @@ void CameraTetherWidget::setupexposuretimes()
 
 			for(int i=0; i < timekeys.count(); i++)
 			{
-				_camerasupportedexposuretimes.append(timekeys);
+                                _camerasupportedexposuretimes.append(timekeys.at(i));
 			}
 			int exposuretimeselectedindex = timevalues.indexOf(currentValue);
 
@@ -342,7 +350,7 @@ void CameraTetherWidget::setupexposuretimes()
 }
 void CameraTetherWidget::setupexposureindexes()
 {
-
+    if(0 == selectedCamera->getCameraProperty(QCameraProperties::Iso)) return;
 	QList<QVariant> isovalues = selectedCamera->getCameraProperty(QCameraProperties::Iso)->values();
 		QList<QString> isokeys = selectedCamera->getCameraProperty(QCameraProperties::Iso)->keys();
 		QVariant currentValue = selectedCamera->getCameraProperty(QCameraProperties::Iso)->value();
@@ -370,6 +378,7 @@ void CameraTetherWidget::setupexposureindexes()
 }
 void CameraTetherWidget::setupfnumbers()
 {
+    if(0 == selectedCamera->getCameraProperty(QCameraProperties::Aperture)) return;
 	_fnumbers.clear();
 	QList<QVariant> fnumbervalues = selectedCamera->getCameraProperty(QCameraProperties::Aperture)->values(); //camera values
 	QList<QString> fnumberkeys = selectedCamera->getCameraProperty(QCameraProperties::Aperture)->keys(); //display
@@ -471,14 +480,21 @@ void CameraTetherWidget::setupshuttertable()
 
 void CameraTetherWidget::setupimageformats()
 {
+    if(0 == selectedCamera->getCameraProperty(QCameraProperties::ResolutionMode)) return;
+    qDebug("Clearing formats");
 	_imageformats.clear();
+    qDebug("Getting Values");
 	QList<QVariant> formatvalues = selectedCamera->getCameraProperty(QCameraProperties::ResolutionMode)->values();//props->getPropertyValues(QCameraProperties::ResolutionMode);
+    qDebug("Getting Keys");
 	QList<QString> formatkeys = selectedCamera->getCameraProperty(QCameraProperties::ResolutionMode)->keys(); //props->getPropertyKeys(QCameraProperties::ResolutionMode);
+    qDebug("Getting current value");
 	QVariant currentValue = selectedCamera->getCameraProperty(QCameraProperties::ResolutionMode)->value();
 
+    qDebug(qPrintable(QString("There are %0 keys").arg(formatkeys.count())));
 	for(int i=0; i < formatkeys.count(); i++)
 	{
 		_imageformats.append(QString("%1").arg(formatvalues.at(i).toString()));
+        qDebug(qPrintable(QString("%1").arg(formatvalues.at(i).toString())));
 	}
 
 	ui.lbFormat->setText(QString("%1").arg(formatkeys.at(formatvalues.indexOf(currentValue))));
@@ -534,7 +550,7 @@ void CameraTetherWidget::on_dial1_valueChanged(){
 		QList<QString> wbkeys = selectedCamera->getCameraProperty(QCameraProperties::WhiteBalanceMode)->keys();
 
 		QVariant value(wbvalues.at(index));
-		selectedCamera->setCameraProperty(QCameraProperties::WhiteBalance, value);
+                selectedCamera->setCameraProperty(QCameraProperties::WhiteBalanceMode, value);
 
 //		device->Properties()->Item(QVariant("White Balance"))->SetValue(QVariant(_whitebalances.keys().at(index)));
 		ui.lbWhiteBalance->setText(_whitebalances.at(index));
@@ -581,7 +597,7 @@ void CameraTetherWidget::on_dial1_valueChanged(){
 		//ui.lbFormat->setText(QString("%1").arg(_imageformats.value(_imageformats.keys().at(index))));
 
 	}
-	else if(hasExposureTimes)
+    else if(hasFNumbers)
 	{
 		ui.lbApeture->setText(QString("%1").arg(_fnumbers.at(index)));
 		QList<QVariant> fnumbervalues = selectedCamera->getCameraProperty(QCameraProperties::Aperture)->values(); //camera values
@@ -598,19 +614,16 @@ void CameraTetherWidget::on_hsbDial2_valueChanged(){
 	if(selectedCamera == 0) return;
 
 	int index = ui.hsbDial2->value();
-	QVariant selected = selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)->values().at(index);
-	QString name =	selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)->keys().at(index);
-
-	//if(selected >= 10000)
-	//	ifsleepneeded = true;
-	//else
-	//	ifsleepneeded = false;
 
 
-//	QString selectedValue = _camerasupportedexposuretimes.indexOf(currentValue);
-	ui.lbShutter->setText(name);
-	selectedCamera->setCameraProperty(QCameraProperties::ExposureTimes,QVariant(selected));
-	//device->Properties()->Item(QVariant("Exposure Time"))->SetValue(QVariant(selected));
+        QList<QVariant> timevalues = selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)->values();
+qDebug(qPrintable(QString("number of exposuretime values: %0").arg(timevalues.count())));
+
+    //QVariant selected = selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)->values().at(index);
+    //QString name =	selectedCamera->getCameraProperty(QCameraProperties::ExposureTimes)->keys().at(index);
+
+    ui.lbShutter->setText(QString("%1").arg(_camerasupportedexposuretimes.at(index)));
+    selectedCamera->setCameraProperty(QCameraProperties::ExposureTimes,timevalues.at(index));
 }
 
 void CameraTetherWidget::on_tbISO_toggled(bool checked)
@@ -644,19 +657,46 @@ void CameraTetherWidget::on_tbISO_toggled(bool checked)
 
 void CameraTetherWidget::on_tbWB_toggled(bool checked)
 {
+    if(checked)
+    {
+        if(ui.tbISO->isChecked())
+            ui.tbISO->setChecked(false);
+        if(ui.tbFMT->isChecked())
+            ui.tbFMT->setChecked(false);
 
+//		QMap<QString, QVariant> ISOs = props->getPropertyValues(QCameraProperties::Iso);
+        QVariant currentValue = selectedCamera->getCameraProperty(QCameraProperties::WhiteBalanceMode)->value();
+
+        ui.dial1->setMinimum(0);
+        ui.dial1->setMaximum(_whitebalances.count() - 1);
+        ui.dial1->setValue(_whitebalances.indexOf(currentValue.toString()));
+
+    }
+    else if(!ui.tbISO->isChecked() && !ui.tbFMT->isChecked())
+    {
+        //WIA::IProperty *prop = device->Properties()->Item(QVariant("F Number"));
+        QVariant currentValue = selectedCamera->getCameraProperty(QCameraProperties::Aperture)->value();
+
+        QString selectedfnumber = QString("%1").arg(((float)currentValue.toInt())/100.0);
+        ui.dial1->setMinimum(0);
+        ui.dial1->setMaximum(_fnumbers.count() - 1);
+        ui.dial1->setValue(_fnumbers.indexOf(selectedfnumber));
+    }
 }
 
 void CameraTetherWidget::on_tbFMT_toggled(bool checked)
 {
+    qDebug(qPrintable(QString("Toggled")));
 	if(checked)
 	{
 		if(ui.tbISO->isChecked())
 			ui.tbISO->setChecked(false);
 		if(ui.tbWB->isChecked())
 			ui.tbWB->setChecked(false);
-
-		QVariant currentValue = selectedCamera->getCameraProperty(QCameraProperties::Iso)->value();
+qDebug(qPrintable("Getting currentvalue"));
+        QCameraProperty *prop = selectedCamera->getCameraProperty(QCameraProperties::ResolutionMode);
+            QVariant currentValue = prop->value();
+qDebug(qPrintable(QString("Currentvalue %0").arg(currentValue.toString())));
 		ui.dial1->setMinimum(0);
 		ui.dial1->setMaximum(_imageformats.count() - 1);
 		ui.dial1->setValue(_imageformats.indexOf(currentValue.toString()));
@@ -818,10 +858,10 @@ void CameraTetherWidget::on_lvTimer_timeout(){
 	if(selectedCamera){
 		QPixmap *preview = selectedCamera->getLiveViewImage();
 		QGraphicsScene *scene =  new QGraphicsScene();//ui.graphicsView->scene(); //
-		ui.graphicsView->setScene(scene);
+        ui.gv_LiveView->setScene(scene);
 
 		scene->addPixmap(preview->scaled(ui.graphicsView->width(),ui.graphicsView->height(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
-		ui.graphicsView->show();
+        ui.gv_LiveView->show();
 	}
 }
 
