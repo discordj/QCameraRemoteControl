@@ -13,9 +13,9 @@
 #include <QTimer>
 
 #include <qcameramanager.h>
+#include <dcrimage.h>
 
 #include "ui_cameratetherwidget.h"
-#include "dcrimage.h"
 
 class CameraTetherWidget : public QWidget
 {
@@ -82,26 +82,27 @@ private slots:
 	void on_hsbDial2_valueChanged();
 	void on_pbShutter_clicked();
 	void on_hsExposureComp_valueChanged();
-	void on_tbISO_toggled(bool checked);
-	void on_tbWB_toggled(bool checked);
-	void on_tbFMT_toggled(bool checked);
 	void on_pbsetstorage_clicked();
-	void on_cblockunlockui_toggled(bool checked);
 	void on_timer_timeout();
 	void on_pbTimeLapse_clicked();
 	void on_timelapse_timeout();
 	void on_wiadlg_exception(int err, QString err1, QString err2, QString err3);
-	void on_gbBulbMode_toggled(bool checked);
 	void on_leFilePrefix_editingFinished();
-	void on_cbLiveView_toggled(bool checked);
 	void on_lvTimer_timeout();
 	void on_qcamera_image_captured(QImage image);
 	void on_qcamera_destroyed(QObject *);
-	void on_qcamera_busy(bool isbusy);
 	void on_qcamera_needs_input(QString text);
 	void on_qcamera_property_changed(QCameraProperties::QCameraPropertyTypes, QVariant);
+    void on_tbISO_toggled(bool checked);
+    void on_tbWB_toggled(bool checked);
+    void on_tbFMT_toggled(bool checked);
+    void on_cblockunlockui_toggled(bool checked);
+    void on_gbBulbMode_toggled(bool checked);
+    void on_cbLiveView_toggled(bool checked);
+    void on_qcamera_busy(bool isbusy);
+
 signals:
-	void newImageDownloaded(QString filename);
+//	void newImageDownloaded(QString filename);
 //	void imageDownloaded(QString file);
 };
 
