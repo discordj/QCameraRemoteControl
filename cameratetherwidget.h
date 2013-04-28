@@ -99,7 +99,6 @@ private slots:
     void on_tbFMT_toggled(bool checked);
     void on_cblockunlockui_toggled(bool checked);
     void on_gbBulbMode_toggled(bool checked);
-    void on_cbLiveView_toggled(bool checked);
     void on_qcamera_busy(bool isbusy);
 
 signals:
