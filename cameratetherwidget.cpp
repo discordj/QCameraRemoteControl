@@ -104,7 +104,7 @@ void CameraTetherWidget::on_qcamera_busy(bool isbusy)
 		ui.gbBulbMode->setEnabled(false);
 		ui.hsExposureComp->setEnabled(false);
 		ui.gbTimelapse->setEnabled(false);
-		ui.cbLiveView->setEnabled(false);
+        ui.gbLiveView->setEnabled(false);
 	}
 	else
 	{
@@ -114,7 +114,7 @@ void CameraTetherWidget::on_qcamera_busy(bool isbusy)
 		ui.gbBulbMode->setEnabled(selectedCamera->hasBulbMode());
 		ui.hsExposureComp->setEnabled(true);
 		ui.gbTimelapse->setEnabled(true);
-		ui.cbLiveView->setEnabled(true);
+        ui.gbLiveView->setEnabled(true);
 	}
 }
 
@@ -145,7 +145,7 @@ void CameraTetherWidget::cameradetected()
 		mb.setText("This camera supports bulb mode, but it must be set manually");
 		mb.exec();
 	}
-	ui.cbLiveView->setEnabled(selectedCamera->hasLiveView());
+    ui.gbLiveView->setEnabled(selectedCamera->hasLiveView());
 	QObject::connect(selectedCamera,&QCamera::camera_needs_input,this, &CameraTetherWidget::on_qcamera_needs_input);
 	QObject::connect(selectedCamera,&QCamera::camera_property_changed,this, &CameraTetherWidget::on_qcamera_property_changed);
 }
@@ -360,6 +360,8 @@ void CameraTetherWidget::setupexposureindexes()
 		//if(!prop->IsReadOnly())
 		//{
 			hasISO = true;
+            qDebug(qPrintable(QString("currentvalue: %0").arg(currentValue.toString())));
+            qDebug(qPrintable(QString("key length %0").arg(isokeys.count())));
 			ui.lbISO->setText(QString("%1").arg(isokeys.at(isovalues.indexOf(currentValue))));
 			
 			_isonumbers.clear();
@@ -719,7 +721,7 @@ qDebug(qPrintable(QString("Currentvalue %0").arg(currentValue.toString())));
 void CameraTetherWidget::on_pbShutter_clicked()
 {
 
-	if(ui.cbLiveView->isChecked()){
+    if(ui.gbLiveView->isChecked()){
 		lvTimer->stop();
 	}
 	if(ui.gbBulbMode->isChecked())
@@ -737,15 +739,15 @@ void CameraTetherWidget::on_pbsetstorage_clicked()
 }
 void CameraTetherWidget::on_cblockunlockui_toggled(bool checked)
 {
-	if(checked){
-		selectedCamera->unlockUI();
-		ui.cblockunlockui->setChecked(checked);
-	}
-	else
-	{
-		selectedCamera->lockUI();
-		ui.cblockunlockui->setChecked(checked);
-	}
+//	if(checked){
+//		selectedCamera->unlockUI();
+//		ui.cblockunlockui->setChecked(checked);
+//	}
+//	else
+//	{
+//		selectedCamera->lockUI();
+//		ui.cblockunlockui->setChecked(checked);
+//	}
 }
 
 void CameraTetherWidget::on_timer_timeout()
@@ -836,7 +838,7 @@ void CameraTetherWidget::on_leFilePrefix_editingFinished()
 	if(selectedCamera)
 		selectedCamera->setImageFilePrefix(ui.leFilePrefix->text());
 }
-void CameraTetherWidget::on_cbLiveView_toggled(bool checked)
+void CameraTetherWidget::on_gbLiveView_toggled(bool checked)
 {
 	if(selectedCamera)
 		selectedCamera->toggleLiveView(checked);
@@ -879,7 +881,7 @@ void CameraTetherWidget::on_qcamera_image_captured(QImage image)
 	}
 
 
-	if(ui.cbLiveView->isChecked()){
+    if(ui.gbLiveView->isChecked()){
 		lvTimer->start();
 	}
 

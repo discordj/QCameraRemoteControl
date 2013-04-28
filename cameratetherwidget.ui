@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>783</width>
-    <height>429</height>
+    <height>533</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,6 +20,147 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="5" column="7" rowspan="4">
+    <widget class="QGroupBox" name="gbLiveView">
+     <property name="title">
+      <string>Turn Live View On/Off</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="gv_LiveView"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="0" rowspan="2" colspan="4">
+    <widget class="QGroupBox" name="gbBulbMode">
+     <property name="title">
+      <string>Enable Bulb Exposure</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="cbTakeDarkFrame">
+        <property name="text">
+         <string>Take Dark Frame</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cbUseDarkFrame">
+        <property name="text">
+         <string>Use Dark Frame</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Duration (seconds):</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="sbBulbDuration">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>1200000</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" rowspan="4" colspan="4">
+    <widget class="QGroupBox" name="gbTimelapse">
+     <property name="title">
+      <string>Time Lapse</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Frequency:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="sbtimelapsefreq"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Delay Before Starting:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QSpinBox" name="sbtimelapsedelay"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Shots per Frequency</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Total  Pictures:</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSpinBox" name="sbtimelapsetotal"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="sbtimelapseshotsper"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QPushButton" name="pbTimeLapse">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Start Time Lapse</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QToolButton" name="tbISO">
      <property name="text">
@@ -71,33 +212,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="0" column="7" rowspan="9">
-    <widget class="QGroupBox" name="gbImagePreview">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="title">
-      <string>Image Preview</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QGraphicsView" name="graphicsView"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QGraphicsView" name="gv_LiveView"/>
-      </item>
-     </layout>
-    </widget>
    </item>
    <item row="1" column="0" colspan="7">
     <widget class="QGroupBox" name="gbcamera">
@@ -216,6 +330,9 @@ border-color: rgb(0, 0, 0);</string>
       </property>
      </widget>
      <widget class="QSlider" name="hsExposureComp">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>230</x>
@@ -342,137 +459,7 @@ border-color: rgb(0, 0, 0);</string>
      </widget>
     </widget>
    </item>
-   <item row="3" column="0" rowspan="5" colspan="4">
-    <widget class="QGroupBox" name="gbTimelapse">
-     <property name="title">
-      <string>Time Lapse</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Frequency:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="sbtimelapsefreq"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QSpinBox" name="sbtimelapseshotsper"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Shots per Frequency</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Total  Pictures:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSpinBox" name="sbtimelapsetotal"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Delay Before Starting:</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QSpinBox" name="sbtimelapsedelay"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="0" column="5">
-    <widget class="QScrollBar" name="dial1">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="4">
-    <widget class="QPushButton" name="pbTimeLapse">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>Start Time Lapse</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="4">
-    <widget class="QGroupBox" name="gbBulbMode">
-     <property name="title">
-      <string>Enable Bulb Exposure</string>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QCheckBox" name="cbTakeDarkFrame">
-        <property name="text">
-         <string>Take Dark Frame</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="cbUseDarkFrame">
-        <property name="text">
-         <string>Use Dark Frame</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Duration (seconds):</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QSpinBox" name="sbBulbDuration">
-        <property name="minimum">
-         <number>1</number>
-        </property>
-        <property name="maximum">
-         <number>1200000</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="7" column="4" rowspan="2">
+   <item row="7" column="4" rowspan="2" colspan="3">
     <widget class="QGroupBox" name="gbFileInfo">
      <property name="title">
       <string>File Information</string>
@@ -498,44 +485,54 @@ border-color: rgb(0, 0, 0);</string>
      </layout>
     </widget>
    </item>
-   <item row="3" column="5">
-    <widget class="QScrollBar" name="hsbDial2">
+   <item row="0" column="7" rowspan="5">
+    <widget class="QGroupBox" name="gbImagePreview">
+     <property name="title">
+      <string>Image Preview</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="graphicsView"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="5" colspan="2">
+    <widget class="QScrollBar" name="dial1">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>
-   <item row="4" column="5">
-    <widget class="QSpinBox" name="sbAutoSeconds">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="4" column="4" rowspan="3" colspan="3">
+    <widget class="QGroupBox" name="gbCameraControl">
+     <property name="title">
+      <string>Capture Control</string>
      </property>
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="maximum">
-      <number>3000</number>
-     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pbShutter">
+        <property name="text">
+         <string>Shutter</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
-   <item row="4" column="4">
-    <widget class="QCheckBox" name="cblockunlockui">
-     <property name="text">
-      <string>UnLock Camera UI</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="4">
-    <widget class="QPushButton" name="pbShutter">
-     <property name="text">
-      <string>Shutter</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4">
-    <widget class="QCheckBox" name="cbLiveView">
-     <property name="text">
-      <string>Turn Live View On/Off</string>
+   <item row="3" column="5" colspan="2">
+    <widget class="QScrollBar" name="hsbDial2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
     </widget>
    </item>

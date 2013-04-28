@@ -88,6 +88,7 @@ private slots:
 	void on_timelapse_timeout();
 	void on_wiadlg_exception(int err, QString err1, QString err2, QString err3);
 	void on_leFilePrefix_editingFinished();
+    	void on_gbLiveView_toggled(bool checked);
 	void on_lvTimer_timeout();
 	void on_qcamera_image_captured(QImage image);
 	void on_qcamera_destroyed(QObject *);
