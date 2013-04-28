@@ -11,7 +11,7 @@ DEFINES += QT_LARGEFILE_SUPPORT QT_DLL NO_JPEG DJGPP NO_LCMS NODEPS __MINGW__  M
 INCLUDEPATH += ./GeneratedFiles \
     ./GeneratedFiles/$(Configuration) \
     . \
-    ../QCameraInterface \
+    ../electrobee/QCameraInterface \
     ../DcRawQT \
     ../QCameraInterface/GeneratedFiles
 LIBS += -L"../Debug" \
